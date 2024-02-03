@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request
 from werkzeug.utils import secure_filename
 from google.cloud import storage
@@ -8,7 +9,7 @@ app = Flask(__name__)
 def post_handler_root():
     file = request.files['file']
     storage_client = storage.Client()
-    bucket = storage_client.get_bucket("rounds-challenge-files")
+    bucket = storage_client.get_bucket(os.environ['BUCKET_NAME'])
     blob = bucket.blob(secure_filename(file.filename))
     blob.upload_from_string(file.read(), content_type=file.content_type)
     return blob.public_url
@@ -38,7 +39,7 @@ def hello_world():
 @app.route("/files", methods=["GET"])
 def list_files():
     storage_client = storage.Client()
-    bucket = storage_client.get_bucket("rounds-challenge-files")
+    bucket = storage_client.get_bucket(os.environ['BUCKET_NAME'])
     blobs = bucket.list_blobs()
     return f'''
     <!doctype html>
@@ -48,7 +49,7 @@ def list_files():
         <a href="/">Home</a>
     </div>
     <ul>
-        {"".join([f"<li><a href='{blob.public_url}'>{blob.name}</a></li>" for blob in blobs])}
+        {"".join([f"<li><a href='http://{os.environ['LOAD_BALANCER_IP']}/{blob.name}'>{blob.name}</a></li>" for blob in blobs])}
     </ul>
     '''
 

@@ -9,6 +9,9 @@ COPY requirements.txt .
 
 # Install the required Python packages
 RUN pip install --upgrade pip
+# Upgrade setuptools to avoid a vulnerability CVE-2022-40897
+RUN pip install --upgrade setuptools
+# RUN pip install --upgrade pip setuptools
 RUN pip install --no-cache-dir -r requirements.txt -t .
 
 # Install gunicorn

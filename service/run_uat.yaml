@@ -1,0 +1,27 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: uat
+spec:
+  template:
+    spec:
+      containers:
+      - image: mkruzic/rounds_challenge:7781501720
+        ports:
+        - name: http1
+          containerPort: 8000
+        env:
+        - name: BUCKET_NAME
+          value: files-storage-123
+        - name: LOAD_BALANCER_IP
+          value: 34.111.222.109
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+        startupProbe:
+          timeoutSeconds: 240
+          periodSeconds: 240
+          failureThreshold: 1
+          tcpSocket:
+            port: 8000
