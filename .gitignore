@@ -1,0 +1,5 @@
+.venv
+.git
+.terraform
+__pycache__
+infra/rounds-challenge-cf9ad9322383.json

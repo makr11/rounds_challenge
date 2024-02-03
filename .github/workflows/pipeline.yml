@@ -1,0 +1,28 @@
+name: Deployment Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build and Test
+        run: |
+          # Add your build and test commands here
+
+      - name: Deploy to Production
+        if: github.ref == 'refs/heads/main'
+        run: |
+          # Add your deployment commands here for production environment
+
+      - name: Deploy to Staging
+        if: github.ref == 'refs/pull/*/merge'
+        run: |
+          # Add your deployment commands here for staging environment
