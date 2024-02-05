@@ -15,26 +15,7 @@
     cd <project_directory>
     ```
 
-3. Install dependencies:
-    ```bash
-    npm install
-    ```
-
-4. Build the application:
-    ```bash
-    npm run build
-    ```
-
-5. Configure the environment variables:
-    - Open the `.env` file.
-    - Update the necessary variables with the appropriate values.
-
-6. Start the application:
-    ```bash
-    npm start
-    ```
-
-7. Verify the deployment:
+3. Verify the deployment:
     - Open a web browser.
     - Enter the URL: `http://<server_address>:<port>`.
     - Ensure that the application is running correctly.
