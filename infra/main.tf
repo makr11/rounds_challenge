@@ -84,6 +84,13 @@ resource "google_cloud_run_service_iam_policy" "noauth2" {
   policy_data = data.google_iam_policy.noauth.policy_data
 }
 
+resource "google_cloud_run_service_iam_policy" "noauth_prod" {
+  location    = "us-central1"
+  project     = "rounds-challenge"
+  service     = "prod"
+  policy_data = data.google_iam_policy.noauth.policy_data
+}
+
 resource "google_clouddeploy_target" "files_uat" {
   location = "us-central1"
   name     = "uat"
