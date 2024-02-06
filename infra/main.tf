@@ -85,9 +85,21 @@ resource "google_cloud_run_service_iam_policy" "noauth2" {
 }
 
 resource "google_clouddeploy_target" "files_uat" {
-  location    = "us-central1"
-  name        = "uat"
-  description = "multi-target description"
+  location = "us-central1"
+  name     = "uat"
+
+  project = "rounds-challenge"
+
+  run {
+    location = "projects/rounds-challenge/locations/us-central1"
+  }
+  provider = google-beta
+}
+
+resource "google_clouddeploy_target" "files_prod" {
+  location         = "us-central1"
+  name             = "prod"
+  require_approval = true
 
   project = "rounds-challenge"
 
@@ -106,6 +118,23 @@ resource "google_clouddeploy_delivery_pipeline" "files-deploy" {
     stages {
       target_id = "uat"
       profiles  = ["run_uat"]
+    }
+
+    stages {
+      target_id = "prod"
+      profiles  = ["run_prod"]
+      strategy {
+        canary {
+          canary_deployment {
+            percentages = [10, 20, 30, 40]
+          }
+          runtime_config {
+            cloud_run {
+              automatic_traffic_control = true
+            }
+          }
+        }
+      }
     }
   }
   provider = google-beta

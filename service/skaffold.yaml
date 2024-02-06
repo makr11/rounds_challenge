@@ -7,5 +7,9 @@ profiles:
   manifests:
     rawYaml:
     - run_uat.yaml
+- name: run_prod
+  manifests:
+    rawYaml:
+    - run_prod.yaml
 deploy:
   cloudrun: {}

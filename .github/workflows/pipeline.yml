@@ -62,7 +62,7 @@ jobs:
         run: |-
           echo "RELEASE_NAME=${{ env.APP }}-${GITHUB_SHA::7}-${GITHUB_RUN_NUMBER}" >> ${GITHUB_ENV}
       - name: 'Create Cloud Deploy release'
-        uses: 'google-github-actions/create-cloud-deploy-release@v0'
+        uses: 'google-github-actions/create-cloud-deploy-release@v1'
         with:
           delivery_pipeline: 'files-app-prod'
           name: '${{ env.RELEASE_NAME }}'
