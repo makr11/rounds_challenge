@@ -1,32 +1,22 @@
-# Deployment Instructions
+# Rounds Challenge Solution
 
-## Prerequisites
-- Create bucket for terraform state with the name "rounds-challenge-terraform-state".
+## Infrastructure
 
-## Steps
+Defined with Terraform, the infrastructure is composed of:
+- Bucket to store the files
+- Application Load Balancer with Cloud CDN to serve the files
+- Code Deploy for the application deployment to two targets UAT and PROD which are run on Cloud Run
+- Cloud Run templates are defined in the service directory
 
-1. Clone the repository:
-    ```bash
-    git clone <repository_url>
-    ```
+## CI/CD
 
-2. Navigate to the project directory:
-    ```bash
-    cd <project_directory>
-    ```
+The CI/CD is defined with GitHub Actions, the workflow is defined in the .github/workflows directory and is triggered on push to the main branch. Tests and service image build are defined in the workflow, the deployment is done with the Code Deploy.
+Code Deploy deploys application to two targets UAT and PROD, the deployment UAT is done in a rolling fashion, the deployment PROD is done with a canary deployment.
 
-3. Verify the deployment:
-    - Open a web browser.
-    - Enter the URL: `http://<server_address>:<port>`.
-    - Ensure that the application is running correctly.
+## Monitoring
 
-## Troubleshooting
+Service logs are tracked through Cloud Run logs.
 
-If you encounter any issues during the deployment process, refer to the following troubleshooting steps:
+## Appication
 
-- [ ] Check the application logs for any error messages.
-- [ ] Verify that all the required dependencies are installed.
-- [ ] Ensure that the environment variables are correctly configured.
-- [ ] Restart the application and check if the issue persists.
-
-If the issue still persists, please contact the support team for further assistance.
+The application is a simple web server that accepts file uploads and serves the files. The application is written in Python and uses Flask. Files are served over Cloud CDN and Application Load Balancer.
